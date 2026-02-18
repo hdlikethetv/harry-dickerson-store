@@ -104,12 +104,13 @@
 <body>
 
     <nav>
-        <a href="{% url 'products:home' %}" class="brand">HARRY DICKERSON</a>
-        <ul>
-            <li><a href="{% url 'products:home' %}">Home</a></li>
-            <li><a href="{% url 'products:product_list' %}">Shop</a></li>
-        </ul>
-    </nav>
+    <a href="{% url 'products:home' %}" class="brand">HARRY DICKERSON</a>
+    <ul>
+        <li><a href="{% url 'products:home' %}">Home</a></li>
+        <li><a href="{% url 'products:product_list' %}">Shop</a></li>
+        <li><a href="{% url 'cart:cart_detail' %}">Cart ({{ request.session.cart|length|default:0 }})</a></li>
+    </ul>
+</nav>
 
     <main>
         {% block content %}

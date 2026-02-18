@@ -4,39 +4,47 @@
 
 {% block content %}
 
-    <a href="{% url 'products:product_list' %}" 
-       style="color: #666; text-decoration: none; font-size: 0.9rem;">← Back to Shop</a>
+<a href="{% url 'products:product_list' %}" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Back to
+    Shop</a>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 30px;">
-        
-        <!-- PRODUCT IMAGE -->
-        <div>
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}"
-                     style="width: 100%; object-fit: cover;">
-            {% else %}
-                <div style="width: 100%; height: 500px; background: #eee;
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 30px;">
+
+    <!-- PRODUCT IMAGE -->
+    <div>
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; object-fit: cover;">
+        {% else %}
+        <div style="width: 100%; height: 500px; background: #eee;
                             display: flex; align-items: center; justify-content: center; color: #999;">
-                    No Image Available
-                </div>
-            {% endif %}
+            No Image Available
         </div>
-
-        <!-- PRODUCT INFO -->
-        <div style="padding-top: 20px;">
-            <h1 style="font-size: 2rem; letter-spacing: 2px; margin-bottom: 15px;">{{ product.name }}</h1>
-            <p style="font-size: 1.5rem; margin-bottom: 25px;">£{{ product.price }}</p>
-            <p style="color: #666; line-height: 1.8; margin-bottom: 30px;">{{ product.description }}</p>
-            
-            {% if product.stock > 0 %}
-                <p style="color: green; margin-bottom: 20px; font-size: 0.9rem;">✓ In Stock ({{ product.stock }} available)</p>
-                <a href="#" class="btn">Add to Cart</a>
-            {% else %}
-                <p style="color: red; margin-bottom: 20px; font-size: 0.9rem;">✗ Out of Stock</p>
-                <button class="btn" disabled style="opacity: 0.5; cursor: not-allowed;">Unavailable</button>
-            {% endif %}
-        </div>
-
+        {% endif %}
     </div>
+
+    <!-- PRODUCT INFO -->
+    <div style="padding-top: 20px;">
+        <h1 style="font-size: 2rem; letter-spacing: 2px; margin-bottom: 15px;">{{ product.name }}</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 25px;">£{{ product.price }}</p>
+        <p style="color: #666; line-height: 1.8; margin-bottom: 30px;">{{ product.description }}</p>
+
+        {% if product.stock > 0 %}
+        <p style="color: green; margin-bottom: 20px; font-size: 0.9rem;">✓ In Stock ({{ product.stock }} available)</p>
+
+        <form method="post" action="{% url 'cart:cart_add' product.pk %}">
+            {% csrf_token %}
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <label for="quantity" style="font-size: 0.9rem;">Quantity:</label>
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" id="quantity"
+                    style="width: 80px; padding: 10px; border: 1px solid #ccc; text-align: center;">
+            </div>
+            <button type="submit" class="btn">Add to Cart</button>
+        </form>
+        {% else %}
+        <p style="color: red; margin-bottom: 20px; font-size: 0.9rem;">✗ Out of Stock</p>
+        <button class="btn" disabled style="opacity: 0.5; cursor: not-allowed;">Unavailable</button>
+        {% endif %}
+    </div>
+
+</div>
 
 {% endblock %}
