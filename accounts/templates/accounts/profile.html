@@ -1,0 +1,68 @@
+{% extends 'products/base.html' %}
+
+{% block title %}My Profile - Harry Dickerson{% endblock %}
+
+{% block content %}
+
+<h1 style="letter-spacing: 3px; margin-bottom: 40px;">MY ACCOUNT</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px;">
+    
+    <!-- SIDEBAR -->
+    <div style="background: #fff; padding: 30px; height: fit-content;">
+        <h3 style="margin-bottom: 20px; letter-spacing: 1px;">ACCOUNT MENU</h3>
+        <ul style="list-style: none;">
+            <li style="margin-bottom: 15px;">
+                <a href="{% url 'accounts:profile' %}" style="color: #000; text-decoration: none; font-weight: bold;">
+                    Profile
+                </a>
+            </li>
+            <li style="margin-bottom: 15px;">
+                <a href="#" style="color: #666; text-decoration: none;">
+                    Order History (Coming Soon)
+                </a>
+            </li>
+            <li style="margin-bottom: 15px;">
+                <a href="{% url 'accounts:logout' %}" style="color: #666; text-decoration: none;">
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- PROFILE INFO -->
+    <div style="background: #fff; padding: 40px;">
+        <h2 style="margin-bottom: 30px; letter-spacing: 2px;">PROFILE INFORMATION</h2>
+        
+        <div style="display: grid; gap: 20px;">
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">USERNAME</p>
+                <p style="font-size: 1.1rem; font-weight: bold;">{{ user.username }}</p>
+            </div>
+
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">EMAIL</p>
+                <p style="font-size: 1.1rem;">{{ user.email }}</p>
+            </div>
+
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">NAME</p>
+                <p style="font-size: 1.1rem;">{{ user.first_name }} {{ user.last_name }}</p>
+            </div>
+
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">MEMBER SINCE</p>
+                <p style="font-size: 1.1rem;">{{ user.date_joined|date:"F d, Y" }}</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;">
+            <h3 style="margin-bottom: 20px;">Order History</h3>
+            <p style="color: #666;">You haven't placed any orders yet.</p>
+            <a href="{% url 'products:product_list' %}" class="btn" style="margin-top: 20px;">Start Shopping</a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

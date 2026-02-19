@@ -1,0 +1,44 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Login - Harry Dickerson{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 500px; margin: 0 auto;">
+    <h1 style="letter-spacing: 3px; margin-bottom: 10px; text-align: center;">LOGIN</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px;">Welcome back</p>
+
+    <div style="background: #fff; padding: 40px; border-radius: 4px;">
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div style="margin-bottom: 20px;">
+                <label for="username" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Username
+                </label>
+                <input type="text" name="username" id="username" required
+                       style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+            </div>
+
+            <!-- Password -->
+            <div style="margin-bottom: 30px;">
+                <label for="password" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Password
+                </label>
+                <input type="password" name="password" id="password" required
+                       style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%; padding: 15px;">
+                LOGIN
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px; color: #666;">
+            Don't have an account? <a href="{% url 'accounts:register' %}" style="color: #000; font-weight: bold;">Register here</a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}
