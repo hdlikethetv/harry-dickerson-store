@@ -1,0 +1,112 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Register - Harry Dickerson{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 500px; margin: 0 auto;">
+    <h1 style="letter-spacing: 3px; margin-bottom: 10px; text-align: center;">CREATE ACCOUNT</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px;">Join us to start shopping</p>
+
+    <div style="background: #fff; padding: 40px; border-radius: 4px;">
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Display form errors if any -->
+            {% if form.errors %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                    <strong>Please correct the errors below:</strong>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <!-- Username -->
+            <div style="margin-bottom: 20px;">
+                <label for="id_username" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Username *
+                </label>
+                {{ form.username }}
+                <small style="display: block; margin-top: 5px; color: #666;">
+                    Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+                </small>
+            </div>
+
+            <!-- Email -->
+            <div style="margin-bottom: 20px;">
+                <label for="id_email" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Email *
+                </label>
+                {{ form.email }}
+            </div>
+
+            <!-- First Name -->
+            <div style="margin-bottom: 20px;">
+                <label for="id_first_name" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    First Name *
+                </label>
+                {{ form.first_name }}
+            </div>
+
+            <!-- Last Name -->
+            <div style="margin-bottom: 20px;">
+                <label for="id_last_name" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Last Name *
+                </label>
+                {{ form.last_name }}
+            </div>
+
+            <!-- Password -->
+            <div style="margin-bottom: 20px;">
+                <label for="id_password1" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Password *
+                </label>
+                {{ form.password1 }}
+                <small style="display: block; margin-top: 5px; color: #666;">
+                    Your password must contain at least 8 characters and can't be entirely numeric.
+                </small>
+            </div>
+
+            <!-- Password Confirmation -->
+            <div style="margin-bottom: 30px;">
+                <label for="id_password2" style="display: block; margin-bottom: 8px; font-weight: bold;">
+                    Confirm Password *
+                </label>
+                {{ form.password2 }}
+                <small style="display: block; margin-top: 5px; color: #666;">
+                    Enter the same password as before, for verification.
+                </small>
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%; padding: 15px;">
+                CREATE ACCOUNT
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px; color: #666;">
+            Already have an account? <a href="{% url 'accounts:login' %}" style="color: #000; font-weight: bold;">Login here</a>
+        </p>
+    </div>
+</div>
+
+<style>
+    /* Style form inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        outline: none;
+        border-color: #000;
+    }
+</style>
+
+{% endblock %}
