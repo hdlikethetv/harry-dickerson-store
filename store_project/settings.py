@@ -180,3 +180,6 @@ CLOUDINARY_STORAGE = {
 # Use Cloudinary for media files in production
 if not DEBUG:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
