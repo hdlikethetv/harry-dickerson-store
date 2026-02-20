@@ -1,0 +1,98 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Order #{{ order.id }} - Harry Dickerson{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 800px; margin: 0 auto;">
+    
+    <!-- ORDER HEADER -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        {% if order.status == 'paid' %}
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: #d4edda; 
+                        display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <span style="font-size: 2.5rem; color: #155724;">✓</span>
+            </div>
+            <h1 style="letter-spacing: 3px; margin-bottom: 10px;">ORDER CONFIRMED</h1>
+            <p style="color: #666;">Thank you for your purchase!</p>
+        {% else %}
+            <h1 style="letter-spacing: 3px; margin-bottom: 10px;">ORDER #{{ order.id }}</h1>
+            <p style="color: #666;">Status: {{ order.get_status_display }}</p>
+        {% endif %}
+    </div>
+    
+    <!-- ORDER DETAILS -->
+    <div style="background: #fff; padding: 40px; margin-bottom: 30px;">
+        <h2 style="margin-bottom: 20px; letter-spacing: 2px;">ORDER DETAILS</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">ORDER NUMBER</p>
+                <p style="font-weight: bold;">#{{ order.id }}</p>
+            </div>
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">ORDER DATE</p>
+                <p style="font-weight: bold;">{{ order.created|date:"F d, Y" }}</p>
+            </div>
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">STATUS</p>
+                <p style="font-weight: bold; 
+                          {% if order.status == 'paid' %}color: green;
+                          {% elif order.status == 'pending' %}color: orange;
+                          {% endif %}">
+                    {{ order.get_status_display }}
+                </p>
+            </div>
+            <div>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">TOTAL</p>
+                <p style="font-weight: bold; font-size: 1.2rem;">£{{ order.total_amount }}</p>
+            </div>
+        </div>
+        
+        <div style="padding-top: 30px; border-top: 1px solid #eee;">
+            <h3 style="margin-bottom: 15px;">Shipping Address</h3>
+            <p>{{ order.first_name }} {{ order.last_name }}</p>
+            <p>{{ order.address }}</p>
+            <p>{{ order.city }}, {{ order.postal_code }}</p>
+            <p>{{ order.country }}</p>
+            <p style="margin-top: 10px; color: #666;">{{ order.email }}</p>
+        </div>
+    </div>
+    
+    <!-- ORDER ITEMS -->
+    <div style="background: #fff; padding: 40px;">
+        <h2 style="margin-bottom: 20px; letter-spacing: 2px;">ITEMS ORDERED</h2>
+        
+        {% for item in order.items.all %}
+        <div style="display: flex; justify-content: space-between; align-items: center; 
+                    padding: 20px 0; border-bottom: 1px solid #eee;">
+            <div style="display: flex; gap: 20px; align-items: center;">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                         style="width: 80px; height: 80px; object-fit: cover;">
+                {% else %}
+                    <div style="width: 80px; height: 80px; background: #eee;"></div>
+                {% endif %}
+                <div>
+                    <p style="font-weight: bold; margin-bottom: 5px;">{{ item.product.name }}</p>
+                    <p style="color: #666; font-size: 0.9rem;">Quantity: {{ item.quantity }}</p>
+                    <p style="color: #666; font-size: 0.9rem;">Price: £{{ item.price }}</p>
+                </div>
+            </div>
+            <p style="font-weight: bold; font-size: 1.1rem;">£{{ item.get_cost }}</p>
+        </div>
+        {% endfor %}
+        
+        <div style="text-align: right; margin-top: 30px; padding-top: 20px; border-top: 2px solid #000;">
+            <p style="font-size: 1.3rem; font-weight: bold;">Total: £{{ order.total_amount }}</p>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="{% url 'orders:order_history' %}" class="btn-outline btn" style="margin-right: 15px;">View All Orders</a>
+        <a href="{% url 'products:product_list' %}" class="btn">Continue Shopping</a>
+    </div>
+    
+</div>
+
+{% endblock %}
