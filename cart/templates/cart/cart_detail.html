@@ -81,7 +81,7 @@
             
             <div style="display: flex; gap: 15px; justify-content: flex-end;">
                 <a href="{% url 'products:product_list' %}" class="btn-outline btn">Continue Shopping</a>
-                <a href="#" class="btn">Proceed to Checkout</a>
+                <a href="{% url 'orders:order_create' %}" class="btn">Proceed to Checkout</a>
             </div>
         </div>
     </div>

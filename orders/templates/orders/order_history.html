@@ -1,0 +1,54 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Order History - Harry Dickerson{% endblock %}
+
+{% block content %}
+
+<h1 style="letter-spacing: 3px; margin-bottom: 40px;">ORDER HISTORY</h1>
+
+{% if orders %}
+    <div style="background: #fff; padding: 30px;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid #000;">
+                    <th style="text-align: left; padding: 15px 10px; letter-spacing: 1px;">ORDER #</th>
+                    <th style="text-align: left; padding: 15px 10px; letter-spacing: 1px;">DATE</th>
+                    <th style="text-align: left; padding: 15px 10px; letter-spacing: 1px;">STATUS</th>
+                    <th style="text-align: left; padding: 15px 10px; letter-spacing: 1px;">TOTAL</th>
+                    <th style="text-align: center; padding: 15px 10px; letter-spacing: 1px;">ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 20px 10px; font-weight: bold;">#{{ order.id }}</td>
+                    <td style="padding: 20px 10px;">{{ order.created|date:"M d, Y" }}</td>
+                    <td style="padding: 20px 10px;">
+                        <span style="padding: 5px 15px; border-radius: 20px; font-size: 0.85rem;
+                                     {% if order.status == 'paid' %}background: #d4edda; color: #155724;
+                                     {% elif order.status == 'pending' %}background: #fff3cd; color: #856404;
+                                     {% elif order.status == 'shipped' %}background: #d1ecf1; color: #0c5460;
+                                     {% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td style="padding: 20px 10px; font-weight: bold;">£{{ order.total_amount }}</td>
+                    <td style="padding: 20px 10px; text-align: center;">
+                        <a href="{% url 'orders:order_detail' order.id %}" class="btn" 
+                           style="padding: 8px 20px; font-size: 0.85rem;">
+                            VIEW
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div style="background: #fff; padding: 60px; text-align: center;">
+        <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px;">You haven't placed any orders yet.</p>
+        <a href="{% url 'products:product_list' %}" class="btn">Start Shopping</a>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Checkout - Harry Dickerson{% endblock %}
+
+{% block content %}
+
+<h1 style="letter-spacing: 3px; margin-bottom: 40px;">CHECKOUT</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+    
+    <!-- SHIPPING INFORMATION FORM -->
+    <div style="background: #fff; padding: 40px;">
+        <h2 style="margin-bottom: 30px; letter-spacing: 2px;">SHIPPING INFORMATION</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                    <strong>Please correct the errors below:</strong>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">First Name *</label>
+                    {{ form.first_name }}
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Last Name *</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email *</label>
+                {{ form.email }}
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Address *</label>
+                {{ form.address }}
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Postal Code *</label>
+                    {{ form.postal_code }}
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">City *</label>
+                    {{ form.city }}
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 30px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Country *</label>
+                {{ form.country }}
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; padding: 15px;">
+                CONTINUE TO PAYMENT
+            </button>
+        </form>
+    </div>
+    
+    <!-- ORDER SUMMARY -->
+    <div>
+        <div style="background: #fff; padding: 30px;">
+            <h2 style="margin-bottom: 30px; letter-spacing: 2px;">ORDER SUMMARY</h2>
+            
+            {% for item in cart %}
+            <div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee;">
+                <div style="display: flex; gap: 15px;">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                             style="width: 60px; height: 60px; object-fit: cover;">
+                    {% else %}
+                        <div style="width: 60px; height: 60px; background: #eee;"></div>
+                    {% endif %}
+                    <div>
+                        <p style="font-weight: bold; margin-bottom: 5px;">{{ item.product.name }}</p>
+                        <p style="color: #666; font-size: 0.9rem;">Qty: {{ item.quantity }}</p>
+                    </div>
+                </div>
+                <p style="font-weight: bold;">£{{ item.total_price }}</p>
+            </div>
+            {% endfor %}
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #000;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <p>Subtotal</p>
+                    <p>£{{ cart.get_total_price }}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <p>Shipping</p>
+                    <p>Free</p>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 1.3rem;">
+                    <p style="font-weight: bold;">Total</p>
+                    <p style="font-weight: bold;">£{{ cart.get_total_price }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <a href="{% url 'cart:cart_detail' %}" style="display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none;">
+            ← Back to Cart
+        </a>
+    </div>
+    
+</div>
+
+<style>
+    input[type="text"],
+    input[type="email"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+    
+    input:focus {
+        outline: none;
+        border-color: #000;
+    }
+</style>
+
+{% endblock %}
